@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Vector;
 
 public class Controller {
@@ -49,14 +50,39 @@ public class Controller {
     }
 
     public void handleQuery(String query) {
-        Vector<String> vector = table.get(query.toLowerCase());
-        if (vector == null) {
-            System.out.println("nothing!");
-            return;
+        Vector<Vector<String>> vectors = decodeQuery(query.toLowerCase());
+        HashSet<String> orItems = itemsUnion(vectors.get(1));
+        HashSet<String> norItems = itemsUnion(vectors.get(2));
+        HashMap<String, Integer> results = new HashMap<>();
+        Vector<String> items = vectors.get(0);
+        if (items != null) {
+            int min = Integer.MAX_VALUE;
+            int minIndex = -1;
+            for (int i = 0; i < items.size(); i++) {
+                int size = table.get(items.get(i)).size();
+                if (size < min) {
+                    min = size;
+                    minIndex = i;
+                }
+            }
+            for (String s : table.get(items.get(minIndex))) {
+                results.put(s, 0);
+            }
+            for (String item : items) {
+                for (String s : table.get(item)) {
+                    if (results.containsKey(s)) {
+                        results.replace(s, results.get(s) + 1);
+                    }
+                }
+            }
         }
-        for (String str : vector) {
-            System.out.println(str);
-        }
+//        if (vector == null) {
+//            System.out.println("nothing!");
+//            return;
+//        }
+//        for (String str : vector) {
+//            System.out.println(str);
+//        }
     }
 
     private Vector<Vector<String>> decodeQuery(String query) {
@@ -69,9 +95,22 @@ public class Controller {
             switch (string.charAt(0)) {
                 case '+' -> vectors.get(1).add(string.substring(1));
                 case '-' -> vectors.get(2).add(string.substring(1));
-                default ->  vectors.get(0).add(string);
+                default -> vectors.get(0).add(string);
             }
         }
         return vectors;
+    }
+
+
+    private HashSet<String> itemsUnion(Vector<String> items) {
+        HashSet<String> set = new HashSet<>();
+        if (items == null) {
+            return set;
+        }
+        for (String item : items) {
+            Vector<String> vector = table.get(item);
+            set.addAll(vector);
+        }
+        return set;
     }
 }
