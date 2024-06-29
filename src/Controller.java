@@ -45,6 +45,10 @@ public class Controller {
 
     public void handleQuery(String query) {
         Vector<String> vector = table.get(query);
+        if (vector == null) {
+            System.out.println("nothing!");
+            return;
+        }
         for (String str : vector) {
             System.out.println(str);
         }
