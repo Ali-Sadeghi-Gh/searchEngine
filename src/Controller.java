@@ -59,13 +59,17 @@ public class Controller {
             int min = Integer.MAX_VALUE;
             int minIndex = -1;
             for (int i = 0; i < items.size(); i++) {
-                int size = table.get(items.get(i)).size();
+                Vector<String> vector = table.get(items.get(i));
+                if (vector == null) {
+                    continue;
+                }
+                int size = vector.size();
                 if (size < min) {
                     min = size;
                     minIndex = i;
                 }
             }
-            results = new HashSet<>(table.get(items.get(minIndex)));
+            results = minIndex == -1 ? new HashSet<>() : new HashSet<>(table.get(items.get(minIndex)));
             for (String item : items) {
                 results.removeIf(s -> !table.get(item).contains(s));
             }
@@ -113,7 +117,9 @@ public class Controller {
         }
         for (String item : items) {
             Vector<String> vector = table.get(item);
-            set.addAll(vector);
+            if (vector != null) {
+                set.addAll(vector);
+            }
         }
         return set;
     }
