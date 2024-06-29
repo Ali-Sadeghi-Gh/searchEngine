@@ -56,31 +56,32 @@ public class Controller {
         HashSet<String> results;
         Vector<String> items = vectors.get(0);
         if (items.size() != 0) {
-            int min = Integer.MAX_VALUE;
-            int minIndex = -1;
-            for (int i = 0; i < items.size(); i++) {
-                Vector<String> vector = table.get(items.get(i));
-                if (vector == null) {
-                    continue;
+            int minIndex = getMinIndex(items);
+            if (minIndex == -1) {
+                results = new HashSet<>();
+            } else {
+                results = new HashSet<>(table.get(items.get(minIndex)));
+                for (String item : items) {
+                    Vector<String> vector = table.get(item);
+                    if (vector != null) {
+                        results.removeIf(s -> !vector.contains(s));
+                    } else {
+                        results.clear();
+                    }
                 }
-                int size = vector.size();
-                if (size < min) {
-                    min = size;
-                    minIndex = i;
+                if (orItems.size() != 0) {
+                    results.removeIf(s -> !orItems.contains(s));
                 }
-            }
-            results = minIndex == -1 ? new HashSet<>() : new HashSet<>(table.get(items.get(minIndex)));
-            for (String item : items) {
-                results.removeIf(s -> !table.get(item).contains(s));
-            }
-            if (orItems.size() != 0) {
-                results.removeIf(s -> !orItems.contains(s));
             }
         } else {
             results = orItems;
         }
         results.removeIf(norItems::contains);
 
+        printResult(results);
+    }
+
+    private void printResult(HashSet<String> results) {
         if (results.size() == 0) {
             System.out.println("nothing!");
             return;
@@ -88,6 +89,23 @@ public class Controller {
         for (String str : results) {
             System.out.println(str);
         }
+    }
+
+    private int getMinIndex(Vector<String> items) {
+        int min = Integer.MAX_VALUE;
+        int minIndex = -1;
+        for (int i = 0; i < items.size(); i++) {
+            Vector<String> vector = table.get(items.get(i));
+            if (vector == null) {
+                return -1;
+            }
+            int size = vector.size();
+            if (size < min) {
+                min = size;
+                minIndex = i;
+            }
+        }
+        return minIndex;
     }
 
     private Vector<Vector<String>> decodeQuery(String query) {
