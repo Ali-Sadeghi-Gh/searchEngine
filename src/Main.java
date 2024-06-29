@@ -7,7 +7,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            String query = scanner.next();
+            String query = scanner.nextLine();
             if (query.equals("q")) {
                 break;
             }

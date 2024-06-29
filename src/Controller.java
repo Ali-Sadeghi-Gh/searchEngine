@@ -7,6 +7,10 @@ public class Controller {
     private static Controller instance;
     private HashMap<String, Vector<String>> table;
 
+    private Controller() {
+
+    }
+
     public static Controller getInstance() {
         if (instance == null) {
             instance = new Controller();
@@ -24,6 +28,7 @@ public class Controller {
                 String[] words = FileToString.readFile(child);
                 addToTable(words, child.getName());
             }
+            table.remove("");
         } else {
             throw new RuntimeException("path isn't a directory");
         }
