@@ -53,9 +53,9 @@ public class Controller {
         Vector<Vector<String>> vectors = decodeQuery(query.toLowerCase());
         HashSet<String> orItems = itemsUnion(vectors.get(1));
         HashSet<String> norItems = itemsUnion(vectors.get(2));
-        HashMap<String, Integer> results = new HashMap<>();
+        HashSet<String> results;
         Vector<String> items = vectors.get(0);
-        if (items != null) {
+        if (items.size() != 0) {
             int min = Integer.MAX_VALUE;
             int minIndex = -1;
             for (int i = 0; i < items.size(); i++) {
@@ -65,33 +65,37 @@ public class Controller {
                     minIndex = i;
                 }
             }
-            for (String s : table.get(items.get(minIndex))) {
-                results.put(s, 0);
-            }
+            results = new HashSet<>(table.get(items.get(minIndex)));
             for (String item : items) {
-                for (String s : table.get(item)) {
-                    if (results.containsKey(s)) {
-                        results.replace(s, results.get(s) + 1);
-                    }
-                }
+                results.removeIf(s -> !table.get(item).contains(s));
             }
+            if (orItems.size() != 0) {
+                results.removeIf(s -> !orItems.contains(s));
+            }
+        } else {
+            results = orItems;
         }
-//        if (vector == null) {
-//            System.out.println("nothing!");
-//            return;
-//        }
-//        for (String str : vector) {
-//            System.out.println(str);
-//        }
+        results.removeIf(norItems::contains);
+
+        if (results.size() == 0) {
+            System.out.println("nothing!");
+            return;
+        }
+        for (String str : results) {
+            System.out.println(str);
+        }
     }
 
     private Vector<Vector<String>> decodeQuery(String query) {
-        String[] strings = query.split("//s+");
+        String[] strings = query.split("\\s+");
         Vector<Vector<String>> vectors = new Vector<>();
         vectors.add(new Vector<>());
         vectors.add(new Vector<>());
         vectors.add(new Vector<>());
         for (String string : strings) {
+            if (string.equals("")) {
+                continue;
+            }
             switch (string.charAt(0)) {
                 case '+' -> vectors.get(1).add(string.substring(1));
                 case '-' -> vectors.get(2).add(string.substring(1));
