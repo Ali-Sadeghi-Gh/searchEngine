@@ -40,7 +40,10 @@ public class Controller {
         }
     }
 
-    public void handleQuery(String Query) {
-
+    public void handleQuery(String query) {
+        Vector<String> vector = table.get(query);
+        for (String str : vector) {
+            System.out.println(str);
+        }
     }
 }
