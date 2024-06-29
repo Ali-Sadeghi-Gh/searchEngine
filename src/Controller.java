@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Vector;
 
 public class Controller {
-    private Controller instance;
+    private static Controller instance;
     private HashMap<String, Vector<String>> table;
 
-    public Controller getInstance() {
+    public static Controller getInstance() {
         if (instance == null) {
             instance = new Controller();
         }
@@ -38,5 +38,9 @@ public class Controller {
         } else {
             throw new RuntimeException("path isn't a directory");
         }
+    }
+
+    public void handleQuery(String Query) {
+
     }
 }
