@@ -13,7 +13,7 @@ public class FileToString {
         while ((line = br.readLine()) != null) {
             sb.append(line.toLowerCase()).append(" ");
         }
-        return sb.toString().split(" ");
+        return sb.toString().split("\\s+");
     }
 
 
