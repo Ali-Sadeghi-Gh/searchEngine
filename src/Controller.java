@@ -22,21 +22,24 @@ public class Controller {
         if (directoryListing != null) {
             for (File child : directoryListing) {
                 String[] words = FileToString.readFile(child);
-                String fileName = child.getName();
-                for (String word : words) {
-                    if (table.containsKey(word)) {
-                        if (!table.get(word).lastElement().equals(fileName)) {
-                            table.get(word).add(fileName);
-                        }
-                    } else {
-                        Vector<String> vector = new Vector<>();
-                        vector.add(fileName);
-                        table.put(word, vector);
-                    }
-                }
+                addToTable(words, child.getName());
             }
         } else {
             throw new RuntimeException("path isn't a directory");
+        }
+    }
+
+    private void addToTable(String[] words, String fileName) {
+        for (String word : words) {
+            if (table.containsKey(word)) {
+                if (!table.get(word).lastElement().equals(fileName)) {
+                    table.get(word).add(fileName);
+                }
+            } else {
+                Vector<String> vector = new Vector<>();
+                vector.add(fileName);
+                table.put(word, vector);
+            }
         }
     }
 
