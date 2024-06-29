@@ -49,7 +49,7 @@ public class Controller {
     }
 
     public void handleQuery(String query) {
-        Vector<String> vector = table.get(query);
+        Vector<String> vector = table.get(query.toLowerCase());
         if (vector == null) {
             System.out.println("nothing!");
             return;
@@ -57,5 +57,21 @@ public class Controller {
         for (String str : vector) {
             System.out.println(str);
         }
+    }
+
+    private Vector<Vector<String>> decodeQuery(String query) {
+        String[] strings = query.split("//s+");
+        Vector<Vector<String>> vectors = new Vector<>();
+        vectors.add(new Vector<>());
+        vectors.add(new Vector<>());
+        vectors.add(new Vector<>());
+        for (String string : strings) {
+            switch (string.charAt(0)) {
+                case '+' -> vectors.get(1).add(string.substring(1));
+                case '-' -> vectors.get(2).add(string.substring(1));
+                default ->  vectors.get(0).add(string);
+            }
+        }
+        return vectors;
     }
 }
