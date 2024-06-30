@@ -42,7 +42,7 @@ public class QueryHandler<K> {
             results = intersectionCompulsories(query.compulsories());
             if (!query.optionals().isEmpty()) {
                 HashSet<K> optionalKeys = itemsUnion(query.optionals());
-                results.removeIf(s -> !optionalKeys.contains(s)); // result &= foundKey
+                results.removeIf(s -> !optionalKeys.contains(s)); // results &= optionalKey
             }
         }
 

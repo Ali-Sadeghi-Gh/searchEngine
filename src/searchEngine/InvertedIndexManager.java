@@ -24,7 +24,7 @@ public class InvertedIndexManager<K> {
         return invertedIndex.get(word);
     }
 
-    public void addData(HashMap<K, String> data) { //TODO keySet
+    public void addData(HashMap<K, String> data) {
         for (K key : data.keySet()) {
             allKeys.add(key);
             String str = applyFilters(data.get(key));
@@ -40,7 +40,7 @@ public class InvertedIndexManager<K> {
         return str;
     }
 
-    private void updateInvertedIndex(String[] words, K key) { //TODO search
+    private void updateInvertedIndex(String[] words, K key) {
         for (String word : words) {
             if (invertedIndex.containsKey(word)) {
                 invertedIndex.get(word).add(key);
