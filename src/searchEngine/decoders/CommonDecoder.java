@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class CommonDecoder implements Decoder {
     @Override
-    public QueryType decode(String query) {
+    public Query decode(String query) {
         String[] strings = query.split("\\s+");
 
         Vector<String> compulsories = new Vector<>();
@@ -22,6 +22,6 @@ public class CommonDecoder implements Decoder {
             }
         }
 
-        return new QueryType(compulsories, optionals, forbidden);
+        return new Query(compulsories, optionals, forbidden);
     }
 }
