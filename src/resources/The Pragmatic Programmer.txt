@@ -530,7 +530,7 @@ Publish/Subscribe
 Objects should be able to register to receive only the events they need, and should never be sent events they don't need.
 
 Use this publish/subscribe mechanism to implement a very important design concept: the separation of a model from views of the model.
-Model-View-Controller
+Model-View-searchEngine.Controller
 
 Separates the model from both the GUI that represents it and the controls that manage the view.
 
@@ -547,7 +547,7 @@ The controller is more of a coordination mechanism, and doesn't have to be relat
 
     Model The abstract data model representing the target object. The model has no direct knowledge of any views or controllers.
     View A way to interpret the model. It subscribes to changes in the model and logical events from the controller.
-    Controller A way to control the view and provide the model with new data. It publishes events to both the model and the view.
+    searchEngine.Controller A way to control the view and provide the model with new data. It publishes events to both the model and the view.
 
 30.-Blackboards
 

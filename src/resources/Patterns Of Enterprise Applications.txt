@@ -85,18 +85,18 @@ Lots of relationships to small objects can cause a bottleneck with many DB calls
 
 ## Chapter 4: Web Presentation
 
-### Model View Controller Pattern
+### Model View searchEngine.Controller Pattern
 Encapsulates the idea of separation of concerns. In order to change the user interface, the view and "input controller" can stay the same; just edit the view.
 
-> "The first, and most important, reason for applying Model View Controller (330) is to ensure that the models
+> "The first, and most important, reason for applying Model View searchEngine.Controller (330) is to ensure that the models
 are completely separated from the Web presentation."
 
 #### Input controller vs. Application controller:
  - Input controller: "pulls information off the request. It then forwards the business logic to an appropriate model object."
- - Application controller: "The purpose of an Application Controller (379) is to handle the flow of an application, deciding
+ - Application controller: "The purpose of an Application searchEngine.Controller (379) is to handle the flow of an application, deciding
 which screens should appear in which order."
 
-> "Not all systems need an Application Controller (379). They're useful if your system has a lot of logic about
+> "Not all systems need an Application searchEngine.Controller (379). They're useful if your system has a lot of logic about
 the order of screens and the navigation between them."
 
 #### View Patterns
@@ -111,9 +111,9 @@ Advantages of using a two-step view:
 2. Makes white-labeling easy.
 3. Can easily serve different pages to different devices. (e.g. Mobile vs non-mobile)
 
-#### Input Controller Patterns
-1. Page Controller: Represents a single (web) page. Finds the appropriate models, instantiates the right view(s) and displays the resulting page. Contrasts with...
-2. Front Controller: One object that handles *all* requests and creates a separate object to process it. "Allows you to centralize all HTTP handling within a single object".
+#### Input searchEngine.Controller Patterns
+1. Page searchEngine.Controller: Represents a single (web) page. Finds the appropriate models, instantiates the right view(s) and displays the resulting page. Contrasts with...
+2. Front searchEngine.Controller: One object that handles *all* requests and creates a separate object to process it. "Allows you to centralize all HTTP handling within a single object".
 
 ## Chapter 6: Session State
 

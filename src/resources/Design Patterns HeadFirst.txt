@@ -227,7 +227,7 @@ Bullet points:
   frameworks, like Cocoa, Swift and JavaScript events.
 - The Observer Pattern is related to the Publish / Subscribe Pattern, which is for more complex situations with multiple
   Subjects and or / multiple message types.
-- The Observer Pattern is a commonly used pattern, and we will see it again when we learn about Model-View-Controller.
+- The Observer Pattern is a commonly used pattern, and we will see it again when we learn about Model-View-searchEngine.Controller.
 
 *For each design principle, describe how the Observer Pattern makes use of the principle:*
 
@@ -990,7 +990,7 @@ MVC - it is just a few patterns put together. Music players underneath use MVC.
 View - gives you a presentation of the model. The view usually gets the state and data it needs to display directly from
 the model.
 
-Controller - takes user input and figures out what it means to the model.
+searchEngine.Controller - takes user input and figures out what it means to the model.
 
 Model - the model holds all the data, state and application logic. The model is oblivious to the view and controller,
 although it provides an interface to manipulate and retrieve its state, and it can send notifications of state changes
@@ -1023,7 +1023,7 @@ MVC frameworks: Django, AngularJS, EmberJS, ...
 
 Bullet points:
 
-- The Model View Controller Pattern is a compound pattern consisting of the Observer, Strategy and Composite Patterns.
+- The Model View searchEngine.Controller Pattern is a compound pattern consisting of the Observer, Strategy and Composite Patterns.
 - The model makes use of the Observer Pattern so that it can keep observers updated yet stayed decoupled from them.
 - The controller is the Strategy for the view. The view can use different implementations of the controller to get
   different behavior.
