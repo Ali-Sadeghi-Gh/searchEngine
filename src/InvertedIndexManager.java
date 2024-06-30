@@ -16,7 +16,7 @@ public class InvertedIndexManager {
 
     public void createInvertedIndexOfFiles(File[] files) throws IOException {
         for (File child : files) {
-            String[] words = FileToString.readFile(child);
+            String[] words = FileToStringConvertor.convertFileToString(child);
             addToInvertedIndex(words, child.getName());
         }
         invertedIndex.remove("");

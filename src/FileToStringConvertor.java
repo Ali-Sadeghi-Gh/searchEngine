@@ -3,10 +3,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class FileToString {
+public class FileToStringConvertor {
 
-
-    public static String[] readFile(File file) throws IOException {
+    public static String[] convertFileToString(File file) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
         StringBuilder sb = new StringBuilder();
