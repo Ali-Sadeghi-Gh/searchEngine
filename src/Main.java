@@ -1,10 +1,13 @@
 import searchEngine.Controller;
 import searchEngine.SearchEngine;
+import searchEngine.decoders.CommonDecoder;
+import searchEngine.tokenizers.SpaceTokenizer;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -15,8 +18,9 @@ public class Main {
                     data.put(file.getName(), fileContent);
         }
 
-        SearchEngine<String> searchEngine = new SearchEngine<>();
+        SearchEngine<String> searchEngine = new SearchEngine<>(new Vector<>(), new SpaceTokenizer(), new CommonDecoder());
 
+        searchEngine.addData(data);
 
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -24,7 +28,7 @@ public class Main {
             if (query.equals("q")) {
                 break;
             }
-            Controller.getInstance().handleQuery(query);
+            searchEngine.search(scanner.nextLine());
         }
     }
 
