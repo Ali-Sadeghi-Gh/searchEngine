@@ -1,4 +1,3 @@
-import searchEngine.Controller;
 import searchEngine.SearchEngine;
 import searchEngine.decoders.CommonDecoder;
 import searchEngine.tokenizers.SpaceTokenizer;
@@ -15,10 +14,10 @@ public class Main {
         HashMap<String, String> data = new HashMap<>();
         for (File file : files) {
             String fileContent = readFileContent(file);
-                    data.put(file.getName(), fileContent);
+            data.put(file.getName(), fileContent);
         }
 
-        SearchEngine<String> searchEngine = new SearchEngine<>(new Vector<>(), new SpaceTokenizer(), new CommonDecoder());
+        SearchEngine<String> searchEngine = new SearchEngine<>(null, null, null);
 
         searchEngine.addData(data);
 
