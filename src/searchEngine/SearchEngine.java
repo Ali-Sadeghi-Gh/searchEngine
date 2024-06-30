@@ -12,25 +12,23 @@ import java.util.HashSet;
 import java.util.Vector;
 
 public class SearchEngine<K> {
-    private Vector<Filter> filters;
-    private Tokenizer tokenizer;
-    private Decoder decoder;
-    private InvertedIndexManager invertedIndexManager;
+    private final InvertedIndexManager<K> invertedIndexManager;
+    private final QueryHandler<K> queryHandler;
 
     public SearchEngine(Vector<Filter> filters, Tokenizer tokenizer, Decoder decoder) throws IOException {
-        this.filters = filters == null ? new Vector<>() : filters;
-        this.tokenizer = tokenizer == null ? new SpaceTokenizer() : tokenizer;
-        this.decoder = decoder == null ? new CommonDecoder() : decoder;
-        this.invertedIndexManager = new InvertedIndexManager<K>(filters, tokenizer);
+        Vector<Filter> filters1 = filters == null ? new Vector<>() : filters;
+        Tokenizer tokenizer1 = tokenizer == null ? new SpaceTokenizer() : tokenizer;
+        Decoder decoder1 = decoder == null ? new CommonDecoder() : decoder;
+        this.invertedIndexManager = new InvertedIndexManager<>(filters1, tokenizer1);
+        this.queryHandler = new QueryHandler<>(invertedIndexManager, decoder1);
     }
 
     public void addData(HashMap<K, String> data) {
-        // TODO handle input data
+        invertedIndexManager.addData(data);
     }
 
     public HashSet<K> search(String query) {
         // Todo search
-
         return null;
     }
 
