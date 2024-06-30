@@ -1,12 +1,9 @@
 import searchEngine.SearchEngine;
-import searchEngine.decoders.CommonDecoder;
-import searchEngine.tokenizers.SpaceTokenizer;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Vector;
 
 public class Main {
     public static void main(String[] args) throws IOException {
