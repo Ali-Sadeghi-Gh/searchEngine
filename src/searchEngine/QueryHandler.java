@@ -69,37 +69,6 @@ public class QueryHandler<K> {
         return result;
     }
 
-
-//        HashSet<K> orItems = itemsUnion(vectors.get(1));
-//        HashSet<K> norItems = itemsUnion(vectors.get(2));
-//        HashSet<K> results;
-//        Vector<String> items = vectors.get(0);
-//        if (items.size() != 0) {
-//            int minIndex = getMinIndex(items);
-//            if (minIndex == -1) {
-//                results = new HashSet<>();
-//            } else {
-//                results = new HashSet<>(invertedIndexManager.findKeysByWord(items.get(minIndex)));
-//                for (String item : items) {
-//                    Vector<String> foundKeys = invertedIndexManager.findKeysByWord(item);
-//                    if (foundKeys != null) {
-//                        results.removeIf(s -> !foundKeys.contains(s));
-//                    } else {
-//                        results.clear();
-//                    }
-//                }
-//                if (orItems.size() != 0) {
-//                    results.removeIf(s -> !orItems.contains(s));
-//                }
-//            }
-//        } else {
-//            results = orItems;
-//        }
-//        results.removeIf(norItems::contains);
-
-//        return null;
-//    }
-
     private int findBaseIndex(Vector<String> compulsories) {
         int min = Integer.MAX_VALUE;
         int minIndex = -1;
