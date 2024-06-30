@@ -24,7 +24,7 @@ public class Main {
             if (query.equals("q")) {
                 break;
             }
-            HashSet<String> result = searchEngine.search(scanner.nextLine());
+            HashSet<String> result = searchEngine.search(query);
             printResult(result);
         }
     }
