@@ -23,7 +23,7 @@ public class Controller {
         File dir = new File("src/resources");
         File[] files = dir.listFiles();
         if (files != null) {
-           invertedIndexManager.createInvertedIndexOfFiles(files);
+            invertedIndexManager.createInvertedIndexOfFiles(files);
         } else {
             throw new RuntimeException("path isn't a directory");
         }
