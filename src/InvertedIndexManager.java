@@ -1,3 +1,5 @@
+import tokenizers.SpaceTokenizer;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,7 +18,7 @@ public class InvertedIndexManager {
 
     public void createInvertedIndexOfFiles(File[] files) throws IOException {
         for (File child : files) {
-            String[] words = FileToWordsConvertor.convertFileToWords(child);
+            String[] words = FileToWordsConvertor.convertFileToWords(child, new Vector<>(), new SpaceTokenizer());
             addToInvertedIndex(words, child.getName());
         }
         invertedIndex.remove("");
