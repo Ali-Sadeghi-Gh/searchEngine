@@ -1,6 +1,6 @@
-import filters.Filter;
-import tokenizers.SpaceTokenizer;
-import tokenizers.Tokenizer;
+import searchEngine.filters.Filter;
+import searchEngine.tokenizers.SpaceTokenizer;
+import searchEngine.tokenizers.Tokenizer;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1656,7 +1656,7 @@ code to implement this data-processing query, as shown here:
 creates the map where the grouped
 transaction will be accumulated
 map<currency, list<transaction>> transactionsbycurrencies =
-filters new hashmap<>();
+searchEngine.filters new hashmap<>();
 expensive for (transaction transaction : transactions) {
 transactions iterates the list
 if(transaction. Getprice() > 1000){ of transactions
@@ -1681,7 +1681,7 @@ In addition, its difficult to understand at a glance what the code does because 
 multiple nested control-flow statements.
 Using the streams api, you can solve this problem as follows:
 
-import static java. Util. Stream. Collectors. Groupingby; filters expensive
+import static java. Util. Stream. Collectors. Groupingby; searchEngine.filters expensive
 map<currency, list<transaction>> transactionsbycurrencies = transactions
 transactions. Stream()
 . Filter((transaction t) -> t. Getprice() > 1000) groups them
@@ -4534,7 +4534,7 @@ and then in java 8 using streams. Dont worry about the java 8 code too much; we
 explain it in detail in the next sections!
 Before (java 7):
 
-list<dish> lowcaloricdishes = new arraylist<>(); filters the elements
+list<dish> lowcaloricdishes = new arraylist<>(); searchEngine.filters the elements
 for(dish dish: menu) { using an accumulator
 if(dish. Getcalories() < 400) {
 lowcaloricdishes. Add(dish);
@@ -5288,7 +5288,7 @@ vegetarian friendly.
 5.1.2 filtering unique elements
 streams also support a method called distinct that returns a stream with unique ele-
 ments (according to the implementation of the hashcode and equals methods of the
-objects produced by the stream). For example, the following code filters all even num-
+objects produced by the stream). For example, the following code searchEngine.filters all even num-
 bers from a list and then eliminates duplicates (using the equals method for the com-
 parison). Figure 5.2 shows this visually.
 
@@ -12041,7 +12041,7 @@ where each string corresponds to a line in the file.
 List<string> errors = files. Lines(paths. Get(filename))
 . Filter(line -> line. Startswith("error"))
 . Limit(40)
-limits the result to filters the line
+limits the result to searchEngine.filters the line
 the first 40 lines. . Collect(tolist());
 starting with
 "error".
@@ -13095,7 +13095,7 @@ public integrationflow myflow() { as the source for this
 return integrationflows integrationflow
 . From(this. Integermessagesource(),
 c -> c. Poller(pollers. Fixedrate(10)))
-polls the messagesource filters only the
+polls the messagesource searchEngine.filters only the
 to dequeue the data . Channel(this. Inputchannel())
 . Filter((integer p) -> p % 2 == 0) even numbers
 it conveys
@@ -13112,7 +13112,7 @@ into strings
 here, the method myflow() builds an integrationflow by using the spring integra-
 tion dsl. It uses the fluent builder provided by the integrationflows class, which
 implements the method-chaining pattern. In this case, the resulting flow polls a
-messagesource at a fixed rate, providing a sequence of integers; filters the even ones
+messagesource at a fixed rate, providing a sequence of integers; searchEngine.filters the even ones
 and converts them to strings, and finally sends the result to an output channel in a
 style thats similar to the native java 8 stream api. This api allows a message to be sent
 summary 271
@@ -13743,7 +13743,7 @@ into a set to obtain only into a stream<string> containing corresponding name.
 The distinct values. Only the present names.
 
 Often, manipulating the elements of a stream results in a long chain of transforma-
-tions, filters, and other operations, but this case has an additional complication
+tions, searchEngine.filters, and other operations, but this case has an additional complication
 because each element is also wrapped into an optional. Remember that you modeled
 the fact that a person may not have a car by making its getcar() method return an
 optional<car> instead of a simple car. So, after the first map transformation, you obtain

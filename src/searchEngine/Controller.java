@@ -1,3 +1,7 @@
+package searchEngine;
+
+import searchEngine.decoders.CommonDecoder;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
@@ -9,7 +13,7 @@ public class Controller {
 
     private Controller() {
         invertedIndexManager = new InvertedIndexManager();
-        queryHandler = new QueryHandler(invertedIndexManager);
+        queryHandler = new QueryHandler(invertedIndexManager, new CommonDecoder());
     }
 
     public static Controller getInstance() {
@@ -31,16 +35,8 @@ public class Controller {
 
     public void handleQuery(String query) {
         HashSet<String> results = queryHandler.getQueryResult(query);
-        printResult(results);
+        // TODO return answer
     }
 
-    private void printResult(HashSet<String> results) {
-        if (results.size() == 0) {
-            System.out.println("nothing!");
-            return;
-        }
-        for (String str : results) {
-            System.out.println(str);
-        }
-    }
+
 }

@@ -1,10 +1,10 @@
-package resources;
+package searchEngine.decoders;
 
 import java.util.Vector;
 
-public class QueryDecoder {
-
-    public static Vector<Vector<String>> decodeQuery(String query) {
+public class CommonDecoder implements Decoder {
+    @Override
+    public Vector<Vector<String>> decode(String query) {
         String[] strings = query.split("\\s+");
         Vector<Vector<String>> vectors = new Vector<>();
         vectors.add(new Vector<>());

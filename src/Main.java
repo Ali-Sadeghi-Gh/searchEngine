@@ -1,4 +1,7 @@
+import searchEngine.Controller;
+
 import java.io.*;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Main {
@@ -12,6 +15,16 @@ public class Main {
                 break;
             }
             Controller.getInstance().handleQuery(query);
+        }
+    }
+
+    private void printResult(HashSet<String> results) {
+        if (results.size() == 0) {
+            System.out.println("nothing!");
+            return;
+        }
+        for (String str : results) {
+            System.out.println(str);
         }
     }
 }

@@ -1,17 +1,21 @@
-import resources.QueryDecoder;
+package searchEngine;
+
+import searchEngine.decoders.Decoder;
 
 import java.util.HashSet;
 import java.util.Vector;
 
 public class QueryHandler {
     private final InvertedIndexManager invertedIndexManager;
+    private final Decoder decoder;
 
-    public QueryHandler(InvertedIndexManager invertedIndexManager) {
+    public QueryHandler(InvertedIndexManager invertedIndexManager, Decoder decoder) {
         this.invertedIndexManager = invertedIndexManager;
+        this.decoder = decoder;
     }
 
     public HashSet<String> getQueryResult(String query) {
-        Vector<Vector<String>> vectors = QueryDecoder.decodeQuery(query.toLowerCase());
+        Vector<Vector<String>> vectors = decoder.decode(query.toLowerCase());
         HashSet<String> orItems = itemsUnion(vectors.get(1));
         HashSet<String> norItems = itemsUnion(vectors.get(2));
         HashSet<String> results;

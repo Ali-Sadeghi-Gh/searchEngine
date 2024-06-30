@@ -1,4 +1,4 @@
-package tokenizers;
+package searchEngine.tokenizers;
 
 public class SpaceTokenizer implements Tokenizer {
     @Override

@@ -1,4 +1,6 @@
-import tokenizers.SpaceTokenizer;
+package searchEngine;
+
+import searchEngine.tokenizers.SpaceTokenizer;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +20,8 @@ public class InvertedIndexManager {
 
     public void createInvertedIndexOfFiles(File[] files) throws IOException {
         for (File child : files) {
-            String[] words = FileToWordsConvertor.convertFileToWords(child, new Vector<>(), new SpaceTokenizer());
-            addToInvertedIndex(words, child.getName());
+            // String[] words = FileToWordsConvertor.convertFileToWords(child, new Vector<>(), new SpaceTokenizer());
+            // addToInvertedIndex(words, child.getName());
         }
         invertedIndex.remove("");
     }
