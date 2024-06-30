@@ -23,13 +23,13 @@ public class InvertedIndexManager<K> {
 
     public void addData(HashMap<K, String> data) { //TODO keySet
         for (K key : data.keySet()) {
-            String str = applyFilters(data.get(key), filters);
+            String str = applyFilters(data.get(key));
             updateInvertedIndex(tokenizer.tokenize(str), key);
         }
         invertedIndex.remove("");
     }
 
-    private String applyFilters(String str, Vector<Filter> filters) {
+    private String applyFilters(String str) {
         for (Filter filter : filters) {
             str = filter.doFilter(str);
         }

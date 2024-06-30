@@ -28,8 +28,6 @@ public class SearchEngine<K> {
     }
 
     public HashSet<K> search(String query) {
-        // Todo search
-        return null;
+        return queryHandler.getQueryResult(query);
     }
-
 }
