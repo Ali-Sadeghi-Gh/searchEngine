@@ -13,8 +13,6 @@ this is very general that you can search widely and can customize search and tex
 ## Implementation Details
 ![LOGO](src/resources/image/schema.png)
 
-برای چنین پروژه ای از سه فایل استفاده کردم. اولین فایل همان بالابر است و آدرس و وضعیت آن را اپدیت میکندد. دومی هم فایل کنترلر است و اصل منطق حرکت و توقف و جهت حرکت آسانسور و همچنین پاسخگویی به درخواست ها را بر عهده دارد.
-سومی برای تست کردن که همان فایل TESTBENCH.v است.
 
 
 ## How to Run
