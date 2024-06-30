@@ -19,11 +19,11 @@ public class QueryHandler {
             if (minIndex == -1) {
                 results = new HashSet<>();
             } else {
-                results = new HashSet<>(invertedIndexManager.getInvertedIndex().get(items.get(minIndex)));
+                results = new HashSet<>(invertedIndexManager.findDocsByWord(items.get(minIndex)));
                 for (String item : items) {
-                    Vector<String> vector = invertedIndexManager.getInvertedIndex().get(item);
-                    if (vector != null) {
-                        results.removeIf(s -> !vector.contains(s));
+                    Vector<String> foundDocs = invertedIndexManager.findDocsByWord(item);
+                    if (foundDocs != null) {
+                        results.removeIf(s -> !foundDocs.contains(s));
                     } else {
                         results.clear();
                     }
@@ -44,11 +44,11 @@ public class QueryHandler {
         int min = Integer.MAX_VALUE;
         int minIndex = -1;
         for (int i = 0; i < items.size(); i++) {
-            Vector<String> vector = invertedIndexManager.getInvertedIndex().get(items.get(i));
-            if (vector == null) {
+            Vector<String> foundDocs = invertedIndexManager.findDocsByWord(items.get(i));
+            if (foundDocs == null) {
                 return -1;
             }
-            int size = vector.size();
+            int size = foundDocs.size();
             if (size < min) {
                 min = size;
                 minIndex = i;
@@ -82,9 +82,9 @@ public class QueryHandler {
             return set;
         }
         for (String item : items) {
-            Vector<String> vector = invertedIndexManager.getInvertedIndex().get(item);
-            if (vector != null) {
-                set.addAll(vector);
+            Vector<String> foundDocs = invertedIndexManager.findDocsByWord(item);
+            if (foundDocs != null) {
+                set.addAll(foundDocs);
             }
         }
         return set;

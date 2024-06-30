@@ -10,8 +10,8 @@ public class InvertedIndexManager {
         invertedIndex = new HashMap<>();
     }
 
-    public HashMap<String, Vector<String>> getInvertedIndex() {
-        return invertedIndex;
+    public Vector<String> findDocsByWord(String word) {
+        return invertedIndex.get(word);
     }
 
     public void createInvertedIndexOfFiles(File[] files) throws IOException {
