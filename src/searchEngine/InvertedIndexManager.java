@@ -4,32 +4,36 @@ import searchEngine.filters.Filter;
 import searchEngine.tokenizers.Tokenizer;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Vector;
 
 public class InvertedIndexManager<K> {
-    private final HashMap<String, Vector<K>> invertedIndex;
+    private final HashMap<String, HashSet<K>> invertedIndex;
     private final Vector<Filter> filters;
     private final Tokenizer tokenizer;
+    private final HashSet<K> allKeys;
 
     public InvertedIndexManager(Vector<Filter> filters, Tokenizer tokenizer) {
         invertedIndex = new HashMap<>();
         this.tokenizer = tokenizer;
         this.filters = filters;
+        this.allKeys = new HashSet<>();
     }
 
-    public Vector<K> findKeysByWord(String word) {
+    public HashSet<K> findKeysByWord(String word) {
         return invertedIndex.get(word);
     }
 
     public void addData(HashMap<K, String> data) { //TODO keySet
         for (K key : data.keySet()) {
-            String str = applyFilters(data.get(key), filters);
+            allKeys.add(key);
+            String str = applyFilters(data.get(key));
             updateInvertedIndex(tokenizer.tokenize(str), key);
         }
         invertedIndex.remove("");
     }
 
-    private String applyFilters(String str, Vector<Filter> filters) {
+    private String applyFilters(String str) {
         for (Filter filter : filters) {
             str = filter.doFilter(str);
         }
@@ -39,14 +43,16 @@ public class InvertedIndexManager<K> {
     private void updateInvertedIndex(String[] words, K key) { //TODO search
         for (String word : words) {
             if (invertedIndex.containsKey(word)) {
-                if (!invertedIndex.get(word).lastElement().equals(key)) {
-                    invertedIndex.get(word).add(key);
-                }
+                invertedIndex.get(word).add(key);
             } else {
-                Vector<K> keys = new Vector<>();
+                HashSet<K> keys = new HashSet<>();
                 keys.add(key);
                 invertedIndex.put(word, keys);
             }
         }
+    }
+
+    public HashSet<K> getAllKeys() {
+        return allKeys;
     }
 }
