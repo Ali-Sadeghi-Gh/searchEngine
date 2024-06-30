@@ -1,15 +1,14 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Vector;
 
 public class Controller {
     private static Controller instance;
-    private HashMap<String, Vector<String>> invertedIndex;
+    private final InvertedIndexManager invertedIndexManager;
 
     private Controller() {
-
+        invertedIndexManager = new InvertedIndexManager();
     }
 
     public static Controller getInstance() {
@@ -20,32 +19,12 @@ public class Controller {
     }
 
     public void createInvertedIndex() throws IOException {
-        invertedIndex = new HashMap<>();
-
         File dir = new File("src/resources");
-        File[] directoryListing = dir.listFiles();
-        if (directoryListing != null) {
-            for (File child : directoryListing) {
-                String[] words = FileToString.readFile(child);
-                addToInvertedIndex(words, child.getName());
-            }
-            invertedIndex.remove("");
+        File[] files = dir.listFiles();
+        if (files != null) {
+           invertedIndexManager.createInvertedIndexOfFiles(files);
         } else {
             throw new RuntimeException("path isn't a directory");
-        }
-    }
-
-    private void addToInvertedIndex(String[] words, String fileName) {
-        for (String word : words) {
-            if (invertedIndex.containsKey(word)) {
-                if (!invertedIndex.get(word).lastElement().equals(fileName)) {
-                    invertedIndex.get(word).add(fileName);
-                }
-            } else {
-                Vector<String> vector = new Vector<>();
-                vector.add(fileName);
-                invertedIndex.put(word, vector);
-            }
         }
     }
 
@@ -60,9 +39,9 @@ public class Controller {
             if (minIndex == -1) {
                 results = new HashSet<>();
             } else {
-                results = new HashSet<>(invertedIndex.get(items.get(minIndex)));
+                results = new HashSet<>(invertedIndexManager.getInvertedIndex().get(items.get(minIndex)));
                 for (String item : items) {
-                    Vector<String> vector = invertedIndex.get(item);
+                    Vector<String> vector = invertedIndexManager.getInvertedIndex().get(item);
                     if (vector != null) {
                         results.removeIf(s -> !vector.contains(s));
                     } else {
@@ -95,7 +74,7 @@ public class Controller {
         int min = Integer.MAX_VALUE;
         int minIndex = -1;
         for (int i = 0; i < items.size(); i++) {
-            Vector<String> vector = invertedIndex.get(items.get(i));
+            Vector<String> vector = invertedIndexManager.getInvertedIndex().get(items.get(i));
             if (vector == null) {
                 return -1;
             }
@@ -134,7 +113,7 @@ public class Controller {
             return set;
         }
         for (String item : items) {
-            Vector<String> vector = invertedIndex.get(item);
+            Vector<String> vector = invertedIndexManager.getInvertedIndex().get(item);
             if (vector != null) {
                 set.addAll(vector);
             }
