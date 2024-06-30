@@ -1,15 +1,23 @@
 package searchEngine;
 
+import searchEngine.filters.Filter;
+import searchEngine.tokenizers.Tokenizer;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 
 public class InvertedIndexManager<K> {
     private final HashMap<String, Vector<K>> invertedIndex;
+    private Vector<Filter> filters;
+    private Tokenizer tokenizer;
 
-    public InvertedIndexManager() {
+    public InvertedIndexManager(Vector<Filter> filters, Tokenizer tokenizer) {
         invertedIndex = new HashMap<>();
+        this.tokenizer = tokenizer;
+        this.filters = filters;
     }
 
     public Vector<K> findDocsByWord(String word) {
@@ -25,21 +33,29 @@ public class InvertedIndexManager<K> {
     }
 
     public void addData(HashMap<K, String> data) { //TODO keySet
-        for (K k : data.keySet()) {
-
+        for (K key : data.keySet()) {
+            String str = applyFilters(data.get(key), filters);
+            updateInvertedIndex(tokenizer.tokenize(str), key);
         }
     }
 
-    private void addToInvertedIndex(String[] words, String fileName) {
+    private String applyFilters(String str, Vector<Filter> filters) {
+        for (Filter filter : filters) {
+            str = filter.doFilter(str);
+        }
+        return str;
+    }
+
+    private void updateInvertedIndex(String[] words, K key) { //TODO search
         for (String word : words) {
             if (invertedIndex.containsKey(word)) {
-                if (!invertedIndex.get(word).lastElement().equals(fileName)) {
-                    invertedIndex.get(word).add(fileName);
+                if (!invertedIndex.get(word).lastElement().equals(key)) {
+                    invertedIndex.get(word).add(key);
                 }
             } else {
-                Vector<String> vector = new Vector<>();
-                vector.add(fileName);
-                invertedIndex.put(word, vector);
+                Vector<K> keys = new Vector<>();
+                keys.add(key);
+                invertedIndex.put(word, keys);
             }
         }
     }
