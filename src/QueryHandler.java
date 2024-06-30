@@ -1,3 +1,5 @@
+import resources.QueryDecoder;
+
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -9,7 +11,7 @@ public class QueryHandler {
     }
 
     public HashSet<String> getQueryResult(String query) {
-        Vector<Vector<String>> vectors = decodeQuery(query.toLowerCase());
+        Vector<Vector<String>> vectors = QueryDecoder.decodeQuery(query.toLowerCase());
         HashSet<String> orItems = itemsUnion(vectors.get(1));
         HashSet<String> norItems = itemsUnion(vectors.get(2));
         HashSet<String> results;
@@ -55,25 +57,6 @@ public class QueryHandler {
             }
         }
         return minIndex;
-    }
-
-    private Vector<Vector<String>> decodeQuery(String query) {
-        String[] strings = query.split("\\s+");
-        Vector<Vector<String>> vectors = new Vector<>();
-        vectors.add(new Vector<>());
-        vectors.add(new Vector<>());
-        vectors.add(new Vector<>());
-        for (String string : strings) {
-            if (string.equals("")) {
-                continue;
-            }
-            switch (string.charAt(0)) {
-                case '+' -> vectors.get(1).add(string.substring(1));
-                case '-' -> vectors.get(2).add(string.substring(1));
-                default -> vectors.get(0).add(string);
-            }
-        }
-        return vectors;
     }
 
     private HashSet<String> itemsUnion(Vector<String> items) {
