@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Controller.getInstance().createTable();
+        Controller.getInstance().createInvertedIndex();
 
         Scanner scanner = new Scanner(System.in);
         while (true) {

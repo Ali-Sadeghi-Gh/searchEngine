@@ -6,7 +6,7 @@ import java.util.Vector;
 
 public class Controller {
     private static Controller instance;
-    private HashMap<String, Vector<String>> table;
+    private HashMap<String, Vector<String>> invertedIndex;
 
     private Controller() {
 
@@ -19,32 +19,32 @@ public class Controller {
         return instance;
     }
 
-    public void createTable() throws IOException {
-        table = new HashMap<>();
+    public void createInvertedIndex() throws IOException {
+        invertedIndex = new HashMap<>();
 
         File dir = new File("src/resources");
         File[] directoryListing = dir.listFiles();
         if (directoryListing != null) {
             for (File child : directoryListing) {
                 String[] words = FileToString.readFile(child);
-                addToTable(words, child.getName());
+                addToInvertedIndex(words, child.getName());
             }
-            table.remove("");
+            invertedIndex.remove("");
         } else {
             throw new RuntimeException("path isn't a directory");
         }
     }
 
-    private void addToTable(String[] words, String fileName) {
+    private void addToInvertedIndex(String[] words, String fileName) {
         for (String word : words) {
-            if (table.containsKey(word)) {
-                if (!table.get(word).lastElement().equals(fileName)) {
-                    table.get(word).add(fileName);
+            if (invertedIndex.containsKey(word)) {
+                if (!invertedIndex.get(word).lastElement().equals(fileName)) {
+                    invertedIndex.get(word).add(fileName);
                 }
             } else {
                 Vector<String> vector = new Vector<>();
                 vector.add(fileName);
-                table.put(word, vector);
+                invertedIndex.put(word, vector);
             }
         }
     }
@@ -60,9 +60,9 @@ public class Controller {
             if (minIndex == -1) {
                 results = new HashSet<>();
             } else {
-                results = new HashSet<>(table.get(items.get(minIndex)));
+                results = new HashSet<>(invertedIndex.get(items.get(minIndex)));
                 for (String item : items) {
-                    Vector<String> vector = table.get(item);
+                    Vector<String> vector = invertedIndex.get(item);
                     if (vector != null) {
                         results.removeIf(s -> !vector.contains(s));
                     } else {
@@ -95,7 +95,7 @@ public class Controller {
         int min = Integer.MAX_VALUE;
         int minIndex = -1;
         for (int i = 0; i < items.size(); i++) {
-            Vector<String> vector = table.get(items.get(i));
+            Vector<String> vector = invertedIndex.get(items.get(i));
             if (vector == null) {
                 return -1;
             }
@@ -134,7 +134,7 @@ public class Controller {
             return set;
         }
         for (String item : items) {
-            Vector<String> vector = table.get(item);
+            Vector<String> vector = invertedIndex.get(item);
             if (vector != null) {
                 set.addAll(vector);
             }
