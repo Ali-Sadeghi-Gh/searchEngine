@@ -5,7 +5,7 @@ import searchEngine.decoders.Decoder;
 import java.util.HashSet;
 import java.util.Vector;
 
-public class QueryHandler {
+public class QueryHandler<K> {
     private final InvertedIndexManager invertedIndexManager;
     private final Decoder decoder;
 
@@ -25,9 +25,9 @@ public class QueryHandler {
             if (minIndex == -1) {
                 results = new HashSet<>();
             } else {
-                results = new HashSet<>(invertedIndexManager.findDocsByWord(items.get(minIndex)));
+                results = new HashSet<>(invertedIndexManager.findKeysByWord(items.get(minIndex)));
                 for (String item : items) {
-                    Vector<String> foundDocs = invertedIndexManager.findDocsByWord(item);
+                    Vector<String> foundDocs = invertedIndexManager.findKeysByWord(item);
                     if (foundDocs != null) {
                         results.removeIf(s -> !foundDocs.contains(s));
                     } else {
