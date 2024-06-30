@@ -28,7 +28,8 @@ public class Main {
             if (query.equals("q")) {
                 break;
             }
-            searchEngine.search(scanner.nextLine());
+            HashSet<String> result = searchEngine.search(scanner.nextLine());
+            printResult(result);
         }
     }
 
@@ -52,7 +53,7 @@ public class Main {
         return sb.toString();
     }
 
-    private void printResult(HashSet<String> results) {
+    private static void printResult(HashSet<String> results) {
         if (results.size() == 0) {
             System.out.println("nothing!");
             return;
