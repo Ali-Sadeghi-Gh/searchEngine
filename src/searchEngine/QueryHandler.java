@@ -28,11 +28,13 @@ public class QueryHandler<K> {
 
     public HashSet<K> getQueryResult(String queryStr) {
         Query query = decoder.decode(queryStr.toLowerCase());
-        HashSet<K> results;
+        HashSet<K> results = new HashSet<>();
 
         if (query.compulsories().isEmpty()) {
             if (query.optionals().isEmpty()) {
-                results = invertedIndexManager.getAllKeys();
+                if (!query.forbidden().isEmpty()) {
+                    results = invertedIndexManager.getAllKeys();
+                }
             } else {
                 results = itemsUnion(query.optionals());
             }
