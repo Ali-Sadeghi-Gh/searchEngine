@@ -12,18 +12,20 @@ public class SearchEngine<K> {
     private Vector<Filter> filters;
     private Tokenizer tokenizer;
     private Decoder decoder;
+    private InvertedIndexManager invertedIndexManager;
 
     public SearchEngine(Vector<Filter> filters, Tokenizer tokenizer, Decoder decoder) throws IOException {
         this.filters = filters;
         this.tokenizer = tokenizer;
         this.decoder = decoder;
+        this.invertedIndexManager = new InvertedIndexManager<K>();
     }
 
-    public void addDoc(HashMap<K, String> data) {
+    public void addData(HashMap<K, String> data) {
         // TODO handle input data
     }
 
-    public String search(Vector<Vector<String>> query) {
+    public String search(String query) {
         // Todo search
 
         return "";
