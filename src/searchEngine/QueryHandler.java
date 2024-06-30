@@ -1,60 +1,104 @@
 package searchEngine;
 
 import searchEngine.decoders.Decoder;
+import searchEngine.decoders.Query;
 
 import java.util.HashSet;
 import java.util.Vector;
 
 public class QueryHandler<K> {
-    private final InvertedIndexManager invertedIndexManager;
+    private final InvertedIndexManager<K> invertedIndexManager;
     private final Decoder decoder;
 
-    public QueryHandler(InvertedIndexManager invertedIndexManager, Decoder decoder) {
+    public QueryHandler(InvertedIndexManager<K> invertedIndexManager, Decoder decoder) {
         this.invertedIndexManager = invertedIndexManager;
         this.decoder = decoder;
     }
 
-    public HashSet<String> getQueryResult(String query) {
-        Vector<Vector<String>> vectors = decoder.decode(query.toLowerCase());
-        HashSet<String> orItems = itemsUnion(vectors.get(1));
-        HashSet<String> norItems = itemsUnion(vectors.get(2));
-        HashSet<String> results;
-        Vector<String> items = vectors.get(0);
-        if (items.size() != 0) {
-            int minIndex = getMinIndex(items);
-            if (minIndex == -1) {
-                results = new HashSet<>();
+    private HashSet<K> removeForbidden(HashSet<K> base, HashSet<K> forbidden) {
+        HashSet<K> result = new HashSet<>();
+        for (K key : base) {
+            if (!forbidden.contains(key)) {
+                result.add(key);
+            }
+        }
+        return result;
+    }
+    
+    
+    public HashSet<K> getQueryResult(String queryStr) {
+        Query query = decoder.decode(queryStr.toLowerCase());
+        HashSet<K> results = new HashSet<>();
+        
+        if (query.compulsories().isEmpty()) {
+            if (query.optionals().isEmpty()) {
+                HashSet<K> norItems = itemsUnion(query.forbidden());
+                return removeForbidden(invertedIndexManager.getAllKeys() ,norItems);
             } else {
-                results = new HashSet<>(invertedIndexManager.findKeysByWord(items.get(minIndex)));
-                for (String item : items) {
-                    Vector<String> foundDocs = invertedIndexManager.findKeysByWord(item);
-                    if (foundDocs != null) {
-                        results.removeIf(s -> !foundDocs.contains(s));
-                    } else {
-                        results.clear();
-                    }
-                }
-                if (orItems.size() != 0) {
-                    results.removeIf(s -> !orItems.contains(s));
-                }
+                results = itemsUnion(query.optionals());
             }
         } else {
-            results = orItems;
+            if (query.optionals().isEmpty()) {
+                // TODO
+            } else {
+                
+            }
         }
-        results.removeIf(norItems::contains);
 
-        return results;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        HashSet<K> orItems = itemsUnion(vectors.get(1));
+//        HashSet<K> norItems = itemsUnion(vectors.get(2));
+//        HashSet<K> results;
+//        Vector<String> items = vectors.get(0);
+//        if (items.size() != 0) {
+//            int minIndex = getMinIndex(items);
+//            if (minIndex == -1) {
+//                results = new HashSet<>();
+//            } else {
+//                results = new HashSet<>(invertedIndexManager.findKeysByWord(items.get(minIndex)));
+//                for (String item : items) {
+//                    Vector<String> foundKeys = invertedIndexManager.findKeysByWord(item);
+//                    if (foundKeys != null) {
+//                        results.removeIf(s -> !foundKeys.contains(s));
+//                    } else {
+//                        results.clear();
+//                    }
+//                }
+//                if (orItems.size() != 0) {
+//                    results.removeIf(s -> !orItems.contains(s));
+//                }
+//            }
+//        } else {
+//            results = orItems;
+//        }
+//        results.removeIf(norItems::contains);
+
+        return null;
     }
 
     private int getMinIndex(Vector<String> items) {
         int min = Integer.MAX_VALUE;
         int minIndex = -1;
         for (int i = 0; i < items.size(); i++) {
-            Vector<String> foundDocs = invertedIndexManager.findDocsByWord(items.get(i));
-            if (foundDocs == null) {
+            HashSet<K> foundKeys = invertedIndexManager.findKeysByWord(items.get(i));
+            if (foundKeys == null) {
                 return -1;
             }
-            int size = foundDocs.size();
+            int size = foundKeys.size();
             if (size < min) {
                 min = size;
                 minIndex = i;
@@ -63,15 +107,15 @@ public class QueryHandler<K> {
         return minIndex;
     }
 
-    private HashSet<String> itemsUnion(Vector<String> items) {
-        HashSet<String> set = new HashSet<>();
+    private HashSet<K> itemsUnion(Vector<String> items) {
+        HashSet<K> set = new HashSet<>();
         if (items == null) {
             return set;
         }
         for (String item : items) {
-            Vector<String> foundDocs = invertedIndexManager.findDocsByWord(item);
-            if (foundDocs != null) {
-                set.addAll(foundDocs);
+            HashSet<K> foundKeys = invertedIndexManager.findKeysByWord(item);
+            if (foundKeys != null) {
+                set.addAll(foundKeys);
             }
         }
         return set;
