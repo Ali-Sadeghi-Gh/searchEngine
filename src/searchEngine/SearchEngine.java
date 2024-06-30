@@ -1,5 +1,6 @@
 package searchEngine;
 
+import searchEngine.decoders.Decoder;
 import searchEngine.filters.Filter;
 import searchEngine.tokenizers.Tokenizer;
 
@@ -10,13 +11,12 @@ import java.util.Vector;
 public class SearchEngine<K> {
     private Vector<Filter> filters;
     private Tokenizer tokenizer;
-    private Controller controller;
+    private Decoder decoder;
 
-
-    public SearchEngine(Vector<Filter> filters, Tokenizer tokenizer) throws IOException {
+    public SearchEngine(Vector<Filter> filters, Tokenizer tokenizer, Decoder decoder) throws IOException {
         this.filters = filters;
         this.tokenizer = tokenizer;
-        this.controller = Controller.getInstance();
+        this.decoder = decoder;
     }
 
     public void addDoc(HashMap<K, String> data) {
