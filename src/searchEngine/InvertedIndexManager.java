@@ -3,16 +3,13 @@ package searchEngine;
 import searchEngine.filters.Filter;
 import searchEngine.tokenizers.Tokenizer;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 
 public class InvertedIndexManager<K> {
     private final HashMap<String, Vector<K>> invertedIndex;
-    private Vector<Filter> filters;
-    private Tokenizer tokenizer;
+    private final Vector<Filter> filters;
+    private final Tokenizer tokenizer;
 
     public InvertedIndexManager(Vector<Filter> filters, Tokenizer tokenizer) {
         invertedIndex = new HashMap<>();
@@ -20,16 +17,8 @@ public class InvertedIndexManager<K> {
         this.filters = filters;
     }
 
-    public Vector<K> findDocsByWord(String word) {
+    public Vector<K> findKeysByWord(String word) {
         return invertedIndex.get(word);
-    }
-
-    public void createInvertedIndexOfFiles(File[] files) throws IOException {
-        for (File child : files) {
-            // String[] words = FileToWordsConvertor.convertFileToWords(child, new Vector<>(), new SpaceTokenizer());
-            // addToInvertedIndex(words, child.getName());
-        }
-        invertedIndex.remove("");
     }
 
     public void addData(HashMap<K, String> data) { //TODO keySet
@@ -37,6 +26,7 @@ public class InvertedIndexManager<K> {
             String str = applyFilters(data.get(key), filters);
             updateInvertedIndex(tokenizer.tokenize(str), key);
         }
+        invertedIndex.remove("");
     }
 
     private String applyFilters(String str, Vector<Filter> filters) {
