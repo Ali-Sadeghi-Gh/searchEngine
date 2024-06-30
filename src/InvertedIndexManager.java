@@ -13,7 +13,7 @@ public class InvertedIndexManager {
     public HashMap<String, Vector<String>> getInvertedIndex() {
         return invertedIndex;
     }
-    
+
     public void createInvertedIndexOfFiles(File[] files) throws IOException {
         for (File child : files) {
             String[] words = FileToString.readFile(child);
