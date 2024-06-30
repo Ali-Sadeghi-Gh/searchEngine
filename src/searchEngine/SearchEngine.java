@@ -10,4 +10,8 @@ public class SearchEngine<K> {
     private Tokenizer tokenizer;
 
 
+    public SearchEngine(Vector<Filter> filters, Tokenizer tokenizer) {
+        this.filters = filters;
+        this.tokenizer = tokenizer;
+    }
 }
