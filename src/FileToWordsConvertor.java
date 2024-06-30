@@ -11,16 +11,9 @@ import java.util.Vector;
 public class FileToWordsConvertor {
 
     public static String[] convertFileToWords(File file, Vector<Filter> filters, Tokenizer tokenizer) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String line;
-        StringBuilder sb = new StringBuilder();
-        while ((line = br.readLine()) != null) {
-            sb.append(line.toLowerCase()).append(" ");
-        }
-        String str = sb.toString();
-        String filteredStr = applyFilters(str, filters);
 
-        return tokenizer.tokenize(filteredStr);
+
+        return tokenizer.tokenize(null);
     }
 
     private static String applyFilters(String str, Vector<Filter> filters) {
